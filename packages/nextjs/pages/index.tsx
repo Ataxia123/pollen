@@ -1,55 +1,94 @@
+import { useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { Database } from "@tableland/sdk";
 import type { NextPage } from "next";
 import { BugAntIcon, SparklesIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
+  const tableName = "healthbot_80001_1"; // Our pre-defined health check table
+
+  interface HealthBot {
+    counter: number;
+  }
+
+  interface Schema {
+    id: number;
+    name: string;
+  }
+
+  // const db: Database<HealthBot> = new Database(); // Polygon Mumbai testnet
+  const db = new Database<Schema>();
+  // async function getData() {
+  //   // Type is inferred due to `Database` instance definition
+  //   const { results } = await db.prepare(`SELECT * FROM ${tableName};`).all();
+  //   console.log(results);
+  // }
+
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
+  async function handleTableland() {
+    // Default to grabbing a wallet connection in a browser
+    const db = new Database<Schema>();
+
+    // This is the table's `prefix`; a custom table value prefixed as part of the table's name
+    const prefix = "my_sdk_table";
+
+    const { meta: create } = await db.prepare(`CREATE TABLE ${prefix} (id integer primary key, name text);`).run();
+
+    // The table's `name` is in the format `{prefix}_{chainId}_{tableId}`
+    console.log(create.txn?.name); // e.g., my_sdk_table_80001_311
+  }
+
+  async function handleTableWrite() {
+    // Insert a row into the table
+    const { meta: insert } = await db
+      .prepare(`INSERT INTO ${name} (id, name) VALUES (?, ?);`)
+      .bind(0, "Bobby Tables")
+      .run();
+
+    // Wait for transaction finality
+    await insert.txn?.wait();
+
+    // Perform a read query, requesting all rows from the table
+    const { results } = await db.prepare(`SELECT * FROM ${name};`).all();
+  }
+
   return (
     <>
       <Head>
-        <title>Scaffold-eth App</title>
+        <title>Pollen App</title>
         <meta name="description" content="Created with 🏗 scaffold-eth" />
       </Head>
-
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="px-5">
           <h1 className="text-center mb-8">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">scaffold-eth 2</span>
+            <span className="block text-4xl font-bold">Pollen</span>
           </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/nextjs/pages/index.tsx</code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract <code className="italic bg-base-300 text-base font-bold">YourContract.sol</code> in{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/hardhat/contracts</code>
-          </p>
+          Trying ouut tableland first
         </div>
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
-            </div>
-          </div>
+      </div>
+      <div className="flex items-center flex-col flex-grow pt-10">
+        <div className="px-5">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleTableland}
+          >
+            Create Table
+          </button>
+        </div>
+      </div>
+      <div className="flex items-center flex-col flex-grow pt-10">
+        <div className="px-5">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleTableWrite}
+          >
+            Write to Table
+          </button>
         </div>
       </div>
     </>

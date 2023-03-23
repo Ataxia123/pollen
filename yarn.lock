@@ -1814,6 +1814,7 @@ __metadata:
     "@ethersproject/web": ^5.7.1
     "@heroicons/react": ^2.0.11
     "@rainbow-me/rainbowkit": ^0.11.0
+    "@tableland/sdk": next
     "@trivago/prettier-plugin-sort-imports": ^4.1.1
     "@types/node": ^17.0.35
     "@types/react": ^18.0.9
@@ -2148,6 +2149,31 @@ __metadata:
   dependencies:
     tslib: ^2.4.0
   checksum: 273fd3f3fc461a92f3790cc551ea054745c6d6959afbe1232e6d7aa1c722bbc114d308aab96bef5c78fc0303c85c7b472ef00e2253251cc89737f3b1af56e5a5
+  languageName: node
+  linkType: hard
+
+"@tableland/evm@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@tableland/evm@npm:4.0.0"
+  checksum: 419119f2747e7212abf93fe8882963c58a97cf750ab9eb1e98f88720879a73432643fe0ea39a0b196b9d1d6503072e63b6e0f73cdcbf42806d66c11ebb1bceae
+  languageName: node
+  linkType: hard
+
+"@tableland/sdk@npm:next":
+  version: 4.0.0-pre.8
+  resolution: "@tableland/sdk@npm:4.0.0-pre.8"
+  dependencies:
+    "@tableland/evm": ^4.0.0
+    "@tableland/sqlparser": ^1.0.3
+    ethers: ^5.7.2
+  checksum: f4885f141d3ca17b659849c7525d906e3b50a109f1ebc56a7aa813c6eb8c4315546d78ecf15d7ae0708719fb0ca0bc2b903919693c2f0fdf3955dacd9fbec076
+  languageName: node
+  linkType: hard
+
+"@tableland/sqlparser@npm:^1.0.3":
+  version: 1.0.4
+  resolution: "@tableland/sqlparser@npm:1.0.4"
+  checksum: 6724bfa064522a506891f8dc487bb7888f58bb7f7653681538741de811e91c7daa9c8fcdd4a61aee6c1174d28d81e32dd0706067db74c2f63a78a158fbf0c183
   languageName: node
   linkType: hard
 
